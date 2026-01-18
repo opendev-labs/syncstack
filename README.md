@@ -63,7 +63,10 @@ GH Sync leverages a distributed architecture:
 - [Python 3](https://www.python.org/downloads/)
 - [Git](https://git-scm.com/downloads)
 
-### Quick Start
+#### Snap Store (Recommended)
+Coming soon to the Snap Store. Stay tuned for the official release.
+
+#### Local Build
 ```bash
 # Clone the repository
 git clone https://github.com/opendev-labs/gh-sync-desk.git

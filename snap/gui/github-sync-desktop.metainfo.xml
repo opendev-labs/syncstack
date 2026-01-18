@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.opendev.github-sync-desktop</id>
+  <name>GitHub Sync Desktop</name>
+  <summary>Enterprise GitHub Synchronization Engine</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>
+      A high-performance, minimalist desktop client for professional developers.
+      Designed with the Antigravity IDE aesthetic for focused, high-speed development.
+    </p>
+    <ul>
+      <li>Antigravity Matt-Black/Neon-Green aesthetic</li>
+      <li>SVG-native iconography for infinite scalability</li>
+      <li>Python-powered intelligent synchronization with conflict resolution</li>
+      <li>Zero-bloat native performance leveraging Flutter and Python</li>
+    </ul>
+  </description>
+  <launchable type="desktop-id">github-sync-desktop.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>Secure Authentication Interface</caption>
+      <image>https://raw.githubusercontent.com/opendev-labs/gh-sync-desk/main/assets/screenshots/gh-sync-desktop-loginpage.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Intelligent Repository Dashboard</caption>
+      <image>https://raw.githubusercontent.com/opendev-labs/gh-sync-desk/main/assets/screenshots/gh-sync-desktop-dashboard.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>System Engine Configuration</caption>
+      <image>https://raw.githubusercontent.com/opendev-labs/gh-sync-desk/main/assets/screenshots/gh-sync-desktop-settings.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://github.com/opendev-labs/gh-sync-desk</url>
+</component>

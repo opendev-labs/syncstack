@@ -1,0 +1,16 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Outer Hexagon Frame -->
+  <path d="M256 48L440 152V360L256 464L72 360V152L256 48Z" stroke="#00FF41" stroke-width="24" stroke-linejoin="round"/>
+  
+  <!-- Stylized 'G' / Sync Path -->
+  <path d="M340 180C340 180 300 140 256 140C200 140 150 190 150 256C150 322 200 372 256 372C312 372 362 322 362 256H256" stroke="#00FF41" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Connectivity Accents -->
+  <circle cx="256" cy="256" r="16" fill="#00FF41"/>
+  <path d="M256 48L256 96" stroke="#00FF41" stroke-width="12" stroke-linecap="round"/>
+  <path d="M256 416L256 464" stroke="#00FF41" stroke-width="12" stroke-linecap="round"/>
+  <path d="M72 152L112 176" stroke="#00FF41" stroke-width="12" stroke-linecap="round"/>
+  <path d="M400 336L440 360" stroke="#00FF41" stroke-width="12" stroke-linecap="round"/>
+  <path d="M72 360L112 336" stroke="#00FF41" stroke-width="12" stroke-linecap="round"/>
+  <path d="M400 176L440 152" stroke="#00FF41" stroke-width="12" stroke-linecap="round"/>
+</svg>

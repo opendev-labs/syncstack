@@ -1,0 +1,55 @@
+name: github-sync-desktop
+base: core22
+version: '2.1.0'
+title: GitHub Sync Desktop
+summary: Enterprise GitHub Synchronization Engine
+description: |
+  A high-performance, minimalist desktop client for professional developers.
+  Designed with the Antigravity IDE aesthetic: a high-contrast Matt-Black foundation
+  with vibrant Neon-Green accents.
+
+  Core Features:
+  - Antigravity Matt-Black/Neon-Green aesthetic
+  - SVG-native iconography for infinite scalability
+  - Python-powered intelligent synchronization
+  - Zero-bloat native performance (Flutter)
+  - Seamless IPC-based bridge to GH Engine (Python)
+
+grade: stable
+confinement: strict
+
+website: https://github.com/opendev-labs/gh-sync-desk
+contact: https://github.com/opendev-labs/gh-sync-desk/issues
+issues: https://github.com/opendev-labs/gh-sync-desk/issues
+source-code: https://github.com/opendev-labs/gh-sync-desk
+
+parts:
+  gh-sync-desktop:
+    source: build/linux/x64/release/bundle
+    plugin: dump
+    stage-packages:
+      - python3
+      - python3-requests
+      - libgtk-3-0
+      - libpcre3
+      - libblkid1
+      - liblzma5
+      - libgcrypt20
+      - libsystemd0
+  desktop-metadata:
+    plugin: dump
+    source: snap/gui
+    organize:
+      github-sync-desktop.desktop: usr/share/applications/github-sync-desktop.desktop
+      github-sync-desktop.metainfo.xml: usr/share/metainfo/github-sync-desktop.metainfo.xml
+      logo.svg: usr/share/icons/hicolor/scalable/apps/github-sync-desktop.svg
+
+apps:
+  gh-sync-desktop:
+    command: gh_sync_desktop
+    desktop: usr/share/applications/github-sync-desktop.desktop
+    extensions: [gnome]
+    plugs:
+      - network
+      - home
+      - unity7

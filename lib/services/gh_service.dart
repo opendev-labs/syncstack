@@ -6,11 +6,21 @@ import 'package:path/path.dart' as p;
 class GHService {
   // Locate the python script
   Future<String> _getScriptPath() async {
-    // For development (running from source):
-    // We assume the script is at assets/scripts/gh_engine.py relative to project root
-    // But when running `flutter run`, the CWD might be different.
-    // In a real build, we'd bundle this.
-    // For this environment, we know the absolute path from our task.
+    // 1. Check if we are running in a SNAP environment
+    final snapPath = Platform.environment['SNAP'];
+    if (snapPath != null) {
+      return p.join(snapPath, 'data/flutter_assets/assets/scripts/gh_engine.py');
+    }
+
+    // 2. Check for the bundled asset relative to the executable (Linux release/bundle)
+    final executableDir = p.dirname(Platform.resolvedExecutable);
+    final bundledPath = p.join(executableDir, 'data', 'flutter_assets', 'assets', 'scripts', 'gh_engine.py');
+    
+    if (await File(bundledPath).exists()) {
+      return bundledPath;
+    }
+
+    // 3. Fallback to the absolute development path
     return '/home/cube/Gh-sync/opendev-labs/gh-sync-desk/assets/scripts/gh_engine.py';
   }
 

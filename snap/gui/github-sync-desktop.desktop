@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=GitHub Sync Desktop
+Comment=Enterprise GitHub Synchronization Engine
+Exec=github-sync-desktop
+Icon=${SNAP}/gui/logo.svg
+Terminal=false
+Type=Application
+Categories=Development;
+StartupWMClass=gh_sync_desktop
