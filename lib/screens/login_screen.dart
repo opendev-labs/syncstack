@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../providers/auth_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/github_logo_painter.dart';
@@ -91,7 +92,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         // Logo
-                        const AnimatedGitHubLogo(size: 80)
+                        SvgPicture.asset(
+                          'assets/icons/logo.svg',
+                          height: 80,
+                          width: 80,
+                          colorFilter: const ColorFilter.mode(AppTheme.neonGreen, BlendMode.srcIn),
+                        )
                             .animate()
                             .fadeIn(duration: 800.ms)
                             .scale(begin: const Offset(0.7, 0.7), curve: Curves.elasticOut),
@@ -100,10 +106,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
                         // Title
                         Text(
-                          'GITHUB SYNC',
+                          'GH SYNC DESKTOP',
                           style: GoogleFonts.spaceGrotesk(
                             fontSize: 24,
-                            letterSpacing: 8,
+                            letterSpacing: 4,
                             fontWeight: FontWeight.w800,
                             color: Colors.white,
                           ),

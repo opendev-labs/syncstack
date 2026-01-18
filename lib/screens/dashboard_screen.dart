@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../providers/auth_provider.dart';
 import '../theme/app_theme.dart';
 import '../services/gh_service.dart';
@@ -85,10 +86,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     children: [
                       Row(
                         children: [
-                          const AnimatedGitHubLogo(size: 32),
+                          SvgPicture.asset(
+                            'assets/icons/logo.svg',
+                            height: 32,
+                            width: 32,
+                            colorFilter: const ColorFilter.mode(AppTheme.neonGreen, BlendMode.srcIn),
+                          ),
                           const SizedBox(width: 16),
                           Text(
-                            'GITHUB SYNC',
+                            'GH SYNC',
                             style: GoogleFonts.spaceGrotesk(
                               color: Colors.white,
                               fontSize: 18,

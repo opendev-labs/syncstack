@@ -11,7 +11,7 @@ class GHService {
     // But when running `flutter run`, the CWD might be different.
     // In a real build, we'd bundle this.
     // For this environment, we know the absolute path from our task.
-    return '/home/cube/Gh-sync/opendev-labs/gh-sync-flutter/assets/scripts/gh_engine.py';
+    return '/home/cube/Gh-sync/opendev-labs/gh-sync-desk/assets/scripts/gh_engine.py';
   }
 
   Future<Map<String, dynamic>> _runPython(List<String> args) async {

@@ -68,6 +68,15 @@ class _PremiumButtonState extends State<PremiumButton>
           duration: const Duration(milliseconds: 200),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
+            boxShadow: _isHovered && widget.onPressed != null && widget.isPrimary
+                ? [
+                    BoxShadow(
+                      color: AppTheme.neonGreen.withOpacity(0.3),
+                      blurRadius: 15,
+                      spreadRadius: 2,
+                    )
+                  ]
+                : [],
           ),
           child: ElevatedButton(
             onPressed: widget.isLoading ? null : widget.onPressed,

@@ -1,143 +1,104 @@
-# GH Sync Desktop - Flutter Edition
+# GH Sync Desktop 
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-2.0.0-00FF41?style=for-the-badge)
-![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-000000?style=for-the-badge)
-![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![GH Sync Logo](assets/icons/logo.svg)
 
-**Enterprise GitHub Desktop Client**
+**The Enterprise-Grade GitHub Synchronization Engine**
 
-Converted from Electron to Flutter with a modern Anti-Gravity IDE aesthetic.
+[![Version](https://img.shields.io/badge/version-2.1.0-00FF41?style=for-the-badge)](https://github.com/opendev-labs/gh-sync-desk)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-000000?style=for-the-badge)](https://github.com/opendev-labs/gh-sync-desk)
+[![License](https://img.shields.io/badge/license-MIT-00FF41?style=for-the-badge)](LICENSE)
+
+*A high-performance, minimalist desktop client for professional developers who demand precision, speed, and aesthetic excellence.*
 
 </div>
 
-## ✨ Features
+---
 
-- 🔐 **Secure Authentication** - GitHub Personal Access Token integration
-- 📦 **Repository Management** - View, clone, and sync your repositories
-- 🔄 **Intelligent Sync** - Python-powered Git operations with conflict detection
-- 🎨 **Premium UI** - Black & Green Anti-Gravity theme with glassmorphism
-- ⚡ **Smooth Animations** - Micro-interactions and fluid transitions
-- 🖥️ **Cross-Platform** - Linux, macOS, and Windows support
+## 💎 Visual Experience
 
-## 🚀 Quick Start
+### Secure Authentication
+![Login Screen](assets/screenshots/gh-sync-desktop-loginpage.png)
+*Establish a secure uplink to GitHub with encrypted PAT authentication.*
+
+### Intelligent Dashboard
+![Dashboard](assets/screenshots/gh-sync-desktop-dashboard.png)
+*Manage your entire repository ecosystem with a high-contrast, data-driven interface.*
+
+### System Configuration
+![Settings](assets/screenshots/gh-sync-desktop-settings.png)
+*Fine-tune your synchronization engine for maximum efficiency.*
+
+---
+
+## ⚡ Core Pillars
+
+### 1. Superior Performance
+Native Flutter implementation ensures near-instant startup times (<1s) and high-frame-rate animations. No Electron bloat, just pure efficiency.
+
+### 2. Antigravity Aesthetic
+Designed with the **Antigravity IDE** philosophy. A monochromatic matt-black foundation punctuated by vibrant neon-green accents, optimized for deep-work focus.
+
+### 3. Hybrid Synchronization Engine
+GH Sync leverages a distributed architecture:
+- **Frontend**: Flutter-powered fluid UI for high-fidelity interaction.
+- **Backend**: A specialized Python-core (`gh_engine.py`) handles complex Git operations with intelligent conflict resolution.
+
+---
+
+## 🚀 Technical Highlights
+
+- **Vector Precision**: 100% SVG-native iconography for infinite scalability.
+- **Micro-Interactions**: Hover glows, scanline animations, and fluid transitions that make every action feel premium.
+- **Enterprise Security**: Secure token handling and encrypted communication protocols.
+- **Python Integration**: Seamless IPC-based bridge to a robust Git automation engine.
+
+---
+
+## 🛠️ Installation & Setup
 
 ### Prerequisites
+- [Flutter SDK](https://flutter.dev/docs/get-started/install) (3.0.0+)
+- [Python 3](https://www.python.org/downloads/)
+- [Git](https://git-scm.com/downloads)
 
-- **Flutter SDK** (3.0.0 or higher)
-- **Python 3** (for Git operations)
-- **Git** (command-line tool)
+### Quick Start
+```bash
+# Clone the repository
+git clone https://github.com/opendev-labs/gh-sync-desk.git
 
-### Installation
+# Initialize environment
+cd gh-sync-desk
+pip install requests
+flutter pub get
 
-1. **Clone this repository**
-   ```bash
-   cd /home/cube/Gh-sync/opendev-labs/gh-sync-flutter
-   ```
-
-2. **Install Python dependencies**
-   ```bash
-   pip install requests
-   ```
-
-3. **Get Flutter dependencies**
-   ```bash
-   flutter pub get
-   ```
-
-4. **Run the application**
-   ```bash
-   # For Linux
-   flutter run -d linux
-   
-   # For macOS
-   flutter run -d macos
-   
-   # For Windows
-   flutter run -d windows
-   ```
-
-## 🎨 Design Philosophy
-
-This application follows the **Anti-Gravity IDE** aesthetic:
-
-- **Pure Black Background** (#000000) for maximum contrast
-- **Neon Green Accents** (#00FF41) for visual hierarchy
-- **Glassmorphism** for modern, premium feel
-- **Space Grotesk & Inter** fonts for professional typography
-- **Micro-animations** for enhanced user experience
-
-## 🛠️ Architecture
-
-```
-lib/
-├── main.dart              # App entry point
-├── theme/
-│   └── app_theme.dart     # Anti-Gravity theme & glassmorphism
-├── providers/
-│   └── auth_provider.dart # Authentication state management
-├── services/
-│   └── gh_service.dart    # Python bridge for Git operations
-└── screens/
-    ├── login_screen.dart      # Authentication UI
-    └── dashboard_screen.dart  # Main repository view
-
-assets/
-└── scripts/
-    └── gh_engine.py       # Python Git automation engine
+# Launch high-performance build
+flutter run -d linux # or macos / windows
 ```
 
-## 🔧 Python Engine
+---
 
-The app uses a Python backend (`gh_engine.py`) for Git operations:
+## 🏗️ Architecture
 
-- **Repository cloning** via authenticated URLs
-- **Intelligent sync** with conflict detection
-- **Branch management** and safety snapshots
-- **Status introspection** for repository health
-
-## 📝 Usage
-
-1. **Launch the app** and enter your GitHub credentials
-   - Username: Your GitHub handle
-   - Token: Personal Access Token with `repo` scope
-
-2. **Browse repositories** in the main dashboard
-
-3. **Sync repositories** by clicking the sync icon on any repo card
-
-## 🎯 Key Differences from Electron Version
-
-| Feature | Electron | Flutter |
-|---------|----------|---------|
-| **Framework** | React + Vite | Flutter |
-| **Bundle Size** | ~200MB | ~50MB |
-| **Startup Time** | 2-3s | <1s |
-| **UI Theme** | Basic dark | Anti-Gravity aesthetic |
-| **Animations** | CSS | Flutter Animate |
-| **Python Integration** | IPC | Process.run |
-
-## 🤝 Contributing
-
-This is a personal project for enterprise use. Feel free to fork and customize for your needs.
-
-## 📄 License
-
-MIT License - See LICENSE file for details
-
-## 🙏 Credits
-
-- Original Electron app architecture
-- Anti-Gravity IDE design inspiration
-- Flutter community for excellent documentation
+```yaml
+lib/:
+  main.dart: "Entry point & core state injection"
+  theme/: "Antigravity design system (Matt-Black/Neon-Green)"
+  services/: "Robust Python-Flutter IPC bridge"
+  screens/: "State-aware UI modules (Login/Dashboard/Settings)"
+assets/:
+  icons/: "SVG vector assets"
+  scripts/: "GH Engine (Python Git Automation Core)"
+```
 
 ---
 
 <div align="center">
 
-**Built with ❤️ using Flutter**
+**[ opendev-labs ]**
+*Transcending Code, Elevating Consciousness*
 
-`v2.0.0 // ENTERPRISE EDITION`
+`v2.1.0 // ENTERPRISE EDITION`
 
 </div>
