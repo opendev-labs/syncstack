@@ -6,12 +6,14 @@ class AuthProvider extends ChangeNotifier {
   final GHService _ghService = GHService();
   
   bool _isLoggedIn = false;
+  bool _isInitialized = false;
   String? _username;
   String? _token;
   Map<String, dynamic>? _userProfile;
   bool _isLoading = false;
 
   bool get isLoggedIn => _isLoggedIn;
+  bool get isInitialized => _isInitialized;
   bool get isLoading => _isLoading;
   String? get username => _username;
   String? get token => _token;
@@ -30,8 +32,10 @@ class AuthProvider extends ChangeNotifier {
       _token = token;
       _username = username;
       _isLoggedIn = true;
-      notifyListeners();
     }
+    
+    _isInitialized = true;
+    notifyListeners();
   }
 
   Future<Map<String, dynamic>> login(String username, String token) async {

@@ -21,16 +21,16 @@
   <screenshots>
     <screenshot type="default">
       <caption>Secure Authentication Interface</caption>
-      <image>https://raw.githubusercontent.com/opendev-labs/gh-sync-desk/main/assets/screenshots/gh-sync-desktop-loginpage.png</image>
+      <image>https://raw.githubusercontent.com/opendev-labs/syncstack-desk/main/assets/screenshots/syncstack-desktop-loginpage.png</image>
     </screenshot>
     <screenshot>
       <caption>Intelligent Repository Dashboard</caption>
-      <image>https://raw.githubusercontent.com/opendev-labs/gh-sync-desk/main/assets/screenshots/gh-sync-desktop-dashboard.png</image>
+      <image>https://raw.githubusercontent.com/opendev-labs/syncstack-desk/main/assets/screenshots/syncstack-desktop-dashboard.png</image>
     </screenshot>
     <screenshot>
       <caption>System Engine Configuration</caption>
-      <image>https://raw.githubusercontent.com/opendev-labs/gh-sync-desk/main/assets/screenshots/gh-sync-desktop-settings.png</image>
+      <image>https://raw.githubusercontent.com/opendev-labs/syncstack-desk/main/assets/screenshots/syncstack-desktop-settings.png</image>
     </screenshot>
   </screenshots>
-  <url type="homepage">https://github.com/opendev-labs/gh-sync-desk</url>
+  <url type="homepage">https://github.com/opendev-labs/syncstack-desk</url>
 </component>

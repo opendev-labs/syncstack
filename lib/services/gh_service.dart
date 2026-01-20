@@ -21,7 +21,7 @@ class GHService {
     }
 
     // 3. Fallback to the absolute development path
-    return '/home/cube/Gh-sync/opendev-labs/gh-sync-desk/assets/scripts/gh_engine.py';
+    return '/home/cube/syncstack/opendev-labs/syncstack/assets/scripts/gh_engine.py';
   }
 
   Future<Map<String, dynamic>> _runPython(List<String> args) async {
@@ -65,8 +65,65 @@ class GHService {
     return _runPython(['get_status', path]);
   }
 
-  // Sync
   Future<Map<String, dynamic>> syncRepo(String path, String name, String url, String token, String strategy) async {
     return _runPython(['sync', path, name, url, token, strategy]);
+  }
+
+  // New methods for enhanced git visualization
+  Future<Map<String, dynamic>> getDetailedStatus(String path) async {
+    return _runPython(['get_detailed_status', path]);
+  }
+
+  Future<Map<String, dynamic>> getFileDiff(String path, String file) async {
+    return _runPython(['get_file_diff', path, file]);
+  }
+
+  // GitHub Actions
+  Future<Map<String, dynamic>> getWorkflows(String token, String repo) async {
+    return _runPython(['get_workflows', token, repo]);
+  }
+
+  Future<Map<String, dynamic>> getWorkflowRuns(String token, String repo) async {
+    return _runPython(['get_workflow_runs', token, repo]);
+  }
+
+  Future<Map<String, dynamic>> triggerWorkflow(String token, String repo, String workflowId, {String ref = 'main'}) async {
+    return _runPython(['trigger_workflow', token, repo, workflowId, ref]);
+  }
+
+  Future<Map<String, dynamic>> createRepo(String token, String name, String description, {bool private = false}) async {
+    return _runPython(['create_repo', token, name, description, private.toString()]);
+  }
+
+  Future<Map<String, dynamic>> getGitGraph(String path) async {
+    return _runPython(['get_git_graph', path]);
+  }
+
+  Future<Map<String, dynamic>> getBulkStatus(List<Map<String, String>> repos) async {
+    return _runPython(['get_bulk_status', jsonEncode(repos)]);
+  }
+
+  Future<Map<String, dynamic>> scaffoldRepo(String path, String templateName) async {
+    return _runPython(['scaffold_repo', path, templateName]);
+  }
+
+  Future<Map<String, dynamic>> getRunJobs(String token, String repoFullName, String runId) async {
+    return _runPython(['get_run_jobs', token, repoFullName, runId]);
+  }
+
+  Future<Map<String, dynamic>> scanLocal(String path, {int depth = 3}) async {
+    return _runPython(['scan_local', path, depth.toString()]);
+  }
+
+  Future<Map<String, dynamic>> getRemoteDiff(String path, String branch) async {
+    return _runPython(['get_remote_diff', path, branch]);
+  }
+
+  Future<Map<String, dynamic>> exportSandbox(String html, String css, String js) async {
+    return _runPython(['export_sandbox', html, css, js]);
+  }
+
+  Future<Map<String, dynamic>> deploySandbox(String path, String html, String css, String js, String commitMsg) async {
+    return _runPython(['deploy_sandbox', path, html, css, js, commitMsg]);
   }
 }

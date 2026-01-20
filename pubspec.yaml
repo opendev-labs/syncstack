@@ -1,5 +1,5 @@
-name: gh_sync_desktop
-description: Enterprise GitHub Desktop Client
+name: syncstack
+description: Enterprise Sync Stack by opendev-labs
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -23,6 +23,25 @@ dependencies:
   # Icons
   cupertino_icons: ^1.0.2
   flutter_svg: ^2.0.7
+  
+  # Code Editor & Syntax Highlighting
+  flutter_code_editor: ^0.3.0
+  highlight: ^0.7.0
+  
+  # WebView for live preview
+  webview_flutter: ^4.4.2
+  
+  # File operations
+  file_picker: ^6.1.1
+  path_provider: ^2.1.1
+  path: ^1.8.3
+  archive: ^3.4.0
+  
+  # HTTP for GitHub API
+  http: ^1.1.0
+  
+  # Diff viewer
+  diff_match_patch: ^0.4.1
 
 dev_dependencies:
   flutter_test:
@@ -35,3 +54,4 @@ flutter:
   assets:
     - assets/scripts/
     - assets/icons/
+    - assets/templates/

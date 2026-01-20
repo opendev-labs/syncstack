@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
+import '../widgets/local_scan_dialog.dart';
 import '../widgets/status_indicator.dart';
 import '../widgets/premium_button.dart';
+import '../widgets/project_wizard.dart'; // Added import for ProjectWizard
 
 // --- Repositories View ---
 class RepositoriesView extends StatelessWidget {
@@ -21,63 +23,192 @@ class RepositoriesView extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    if (isLoading) return const Center(child: CircularProgressIndicator(color: AppTheme.neonGreen));
+  Widget build(BuildContext  context) {
+    if (isLoading) return const Center(child: CircularProgressIndicator(color: AppTheme.cyanAccent));
     if (error != null) return Center(child: Text('Error: $error', style: const TextStyle(color: AppTheme.errorRed)));
-    if (repos == null || repos!.isEmpty) return const Center(child: Text('No repositories found.'));
+    if (repos == null || repos!.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'No repositories found.',
+              style: TextStyle(color: AppTheme.textGrey, fontSize: 16),
+            ),
+            const SizedBox(height: 12),
+            const Text(
+              'Access and manage your cloud-hosted repositories',
+              style: TextStyle(color: AppTheme.textGrey, fontSize: 14),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center, // Center the row of buttons
+              children: [
+                OutlinedButton.icon(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => LocalScanDialog(onRefresh: onRefresh),
+                    );
+                  },
+                  icon: const Icon(Icons.search, size: 18),
+                  label: const Text('SCAN LOCAL'),
+                ),
+                const SizedBox(width: 12),
+                ElevatedButton.icon(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => ProjectWizard(onProjectCreated: onRefresh),
+                    );
+                  },
+                  icon: const Icon(Icons.add, size: 18),
+                  label: const Text('CREATE REPOSITORY'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
 
     return GridView.builder(
       padding: const EdgeInsets.all(24),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
-        childAspectRatio: 1.3,
+        childAspectRatio: 1.1,
         crossAxisSpacing: 20,
         mainAxisSpacing: 20,
       ),
       itemCount: repos!.length,
       itemBuilder: (context, index) {
         final repo = repos![index];
-        return Container(
-          decoration: AppTheme.mattBox(),
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const Icon(Icons.folder_outlined, color: AppTheme.neonGreen, size: 20),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      repo['name'],
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+        return _EnhancedRepoCard(
+          repo: repo,
+          onSync: () => onSync(index),
+        );
+      },
+    );
+  }
+}
+
+class _EnhancedRepoCard extends StatefulWidget {
+  final Map<String, dynamic> repo;
+  final VoidCallback onSync;
+
+  const _EnhancedRepoCard({required this.repo, required this.onSync});
+
+  @override
+  State<_EnhancedRepoCard> createState() => _EnhancedRepoCardState();
+}
+
+class _EnhancedRepoCardState extends State<_EnhancedRepoCard> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        decoration: BoxDecoration(
+          color: _isHovered ? AppTheme.elevatedSurface : AppTheme.surfaceBlack,
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(
+            color: _isHovered ? AppTheme.cyanAccent : AppTheme.borderGlow,
+            width: 1,
+          ),
+          boxShadow: _isHovered ? [
+            BoxShadow(
+              color: AppTheme.cyanAccent.withOpacity(0.1),
+              blurRadius: 10,
+              spreadRadius: 2,
+            )
+          ] : [],
+        ),
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: AppTheme.elevatedSurface,
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                ],
-              ),
-              const SizedBox(height: 12),
-              Text(
-                repo['description'] ?? 'No description',
-                style: const TextStyle(color: AppTheme.textGrey, fontSize: 12),
+                  child: const Icon(Icons.folder_outlined, color: AppTheme.cyanAccent, size: 18),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.repo['name'],
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (widget.repo['private'] == true)
+                        Text(
+                          'PRIVATE REPO',
+                          style: TextStyle(fontSize: 9, color: AppTheme.warningOrange.withOpacity(0.7), letterSpacing: 0.5),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Text(
+                widget.repo['description'] ?? 'No description provided.',
+                style: const TextStyle(color: AppTheme.textGrey, fontSize: 12, height: 1.4),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  StatusIndicator(status: SyncStatus.idle, message: 'READY'),
-                  IconButton(
-                    icon: const Icon(Icons.sync_rounded),
-                    onPressed: () => onSync(index),
-                  ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                if (widget.repo['language'] != null) ...[
+                  Icon(Icons.code, size: 12, color: AppTheme.textDimmed),
+                  const SizedBox(width: 4),
+                  Text(widget.repo['language'], style: const TextStyle(fontSize: 11, color: AppTheme.textDimmed)),
+                  const SizedBox(width: 16),
                 ],
-              ),
-            ],
-          ),
-        );
-      },
+                Icon(Icons.star_outline, size: 12, color: AppTheme.textDimmed),
+                const SizedBox(width: 4),
+                Text('${widget.repo['stargazers_count']}', style: const TextStyle(fontSize: 11, color: AppTheme.textDimmed)),
+              ],
+            ),
+            const Divider(color: AppTheme.borderGlow, height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const StatusIndicator(status: SyncStatus.idle, message: 'READY'),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: widget.onSync,
+                    borderRadius: BorderRadius.circular(4),
+                    child: Container(
+                      padding: const EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppTheme.cyanAccent.withOpacity(0.3)),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: const Icon(Icons.sync_rounded, color: AppTheme.cyanAccent, size: 16),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -120,7 +251,7 @@ class AnalyticsView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: AppTheme.neonGreen, size: 32),
+          Icon(icon, color: AppTheme.cyanAccent, size: 32),
           const SizedBox(height: 16),
           Text(title, style: const TextStyle(color: AppTheme.textGrey, fontSize: 14)),
           const SizedBox(height: 8),
@@ -158,7 +289,7 @@ class _SettingsViewState extends State<SettingsView> {
           ]),
           const SizedBox(height: 24),
           _buildSettingSection('Git Configuration', [
-            _buildActionTile('Workspace Root', '/home/cube/Gh-sync', Icons.folder_open, () {}),
+            _buildActionTile('Workspace Root', '/home/cube/syncstack', Icons.folder_open, () {}),
             _buildActionTile('Conflict Strategy', 'Pull (Rebase)', Icons.call_merge, () {}),
           ]),
           const SizedBox(height: 24),
@@ -174,7 +305,7 @@ class _SettingsViewState extends State<SettingsView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title.toUpperCase(), style: const TextStyle(color: AppTheme.neonGreen, fontSize: 12, letterSpacing: 2, fontWeight: FontWeight.bold)),
+        Text(title.toUpperCase(), style: const TextStyle(color: AppTheme.cyanAccent, fontSize: 12, letterSpacing: 2, fontWeight: FontWeight.bold)),
         const SizedBox(height: 16),
         Container(
           decoration: AppTheme.mattBox(),
@@ -188,7 +319,7 @@ class _SettingsViewState extends State<SettingsView> {
     return ListTile(
       title: Text(title),
       subtitle: Text(subtitle, style: const TextStyle(color: AppTheme.textGrey, fontSize: 12)),
-      trailing: Switch(value: value, onChanged: onChanged, activeColor: AppTheme.neonGreen),
+      trailing: Switch(value: value, onChanged: onChanged, activeColor: AppTheme.cyanAccent),
     );
   }
 
@@ -202,7 +333,7 @@ class _SettingsViewState extends State<SettingsView> {
         divisions: 23,
         label: value.round().toString(),
         onChanged: onChanged,
-        activeColor: AppTheme.neonGreen,
+        activeColor: AppTheme.cyanAccent,
       ),
       trailing: Text('${value.round()}m', style: const TextStyle(fontWeight: FontWeight.bold)),
     );
@@ -210,7 +341,7 @@ class _SettingsViewState extends State<SettingsView> {
 
   Widget _buildActionTile(String title, String subtitle, IconData icon, VoidCallback onTap, {bool isDestructive = false}) {
     return ListTile(
-      leading: Icon(icon, color: isDestructive ? AppTheme.errorRed : AppTheme.neonGreen),
+      leading: Icon(icon, color: isDestructive ? AppTheme.errorRed : AppTheme.cyanAccent),
       title: Text(title, style: TextStyle(color: isDestructive ? AppTheme.errorRed : Colors.white)),
       subtitle: Text(subtitle, style: const TextStyle(color: AppTheme.textGrey, fontSize: 12)),
       onTap: onTap,

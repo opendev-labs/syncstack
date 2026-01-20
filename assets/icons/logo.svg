@@ -1,16 +1,17 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Outer Hexagon Frame -->
-  <path d="M256 48L440 152V360L256 464L72 360V152L256 48Z" stroke="#00FF41" stroke-width="24" stroke-linejoin="round"/>
+  <!-- SyncStack Layered Icon -->
+  <!-- Top Layer -->
+  <path d="M256 120L416 200L256 280L96 200L256 120Z" fill="#00A3FF" fill-opacity="0.9"/>
+  <path d="M256 120L416 200L256 280L96 200L256 120Z" stroke="#00A3FF" stroke-width="8" stroke-linejoin="round"/>
   
-  <!-- Stylized 'G' / Sync Path -->
-  <path d="M340 180C340 180 300 140 256 140C200 140 150 190 150 256C150 322 200 372 256 372C312 372 362 322 362 256H256" stroke="#00FF41" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Middle Layer -->
+  <path d="M96 260L256 340L416 260V220L256 300L96 220V260Z" fill="#00A3FF" fill-opacity="0.6"/>
+  <path d="M96 260L256 340L416 260V220L256 300L96 220V260Z" stroke="#00A3FF" stroke-width="8" stroke-linejoin="round"/>
   
-  <!-- Connectivity Accents -->
-  <circle cx="256" cy="256" r="16" fill="#00FF41"/>
-  <path d="M256 48L256 96" stroke="#00FF41" stroke-width="12" stroke-linecap="round"/>
-  <path d="M256 416L256 464" stroke="#00FF41" stroke-width="12" stroke-linecap="round"/>
-  <path d="M72 152L112 176" stroke="#00FF41" stroke-width="12" stroke-linecap="round"/>
-  <path d="M400 336L440 360" stroke="#00FF41" stroke-width="12" stroke-linecap="round"/>
-  <path d="M72 360L112 336" stroke="#00FF41" stroke-width="12" stroke-linecap="round"/>
-  <path d="M400 176L440 152" stroke="#00FF41" stroke-width="12" stroke-linecap="round"/>
+  <!-- Bottom Layer -->
+  <path d="M96 340L256 420L416 340V300L256 380L96 300V340Z" fill="#00A3FF" fill-opacity="0.3"/>
+  <path d="M96 340L256 420L416 340V300L256 380L96 300V340Z" stroke="#00A3FF" stroke-width="8" stroke-linejoin="round"/>
+  
+  <!-- Sync Arrow Accent -->
+  <path d="M380 280L410 310L380 340" stroke="#00A3FF" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

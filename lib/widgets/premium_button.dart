@@ -71,7 +71,7 @@ class _PremiumButtonState extends State<PremiumButton>
             boxShadow: _isHovered && widget.onPressed != null && widget.isPrimary
                 ? [
                     BoxShadow(
-                      color: AppTheme.neonGreen.withOpacity(0.3),
+                      color: AppTheme.cyanAccent.withOpacity(0.3),
                       blurRadius: 15,
                       spreadRadius: 2,
                     )
@@ -83,7 +83,7 @@ class _PremiumButtonState extends State<PremiumButton>
             style: widget.style ??
                 (widget.isPrimary
                     ? ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.neonGreen,
+                        backgroundColor: AppTheme.cyanAccent,
                         foregroundColor: AppTheme.deepBlack,
                         elevation: 0,
                         padding: const EdgeInsets.symmetric(
@@ -95,9 +95,9 @@ class _PremiumButtonState extends State<PremiumButton>
                         ),
                       )
                     : OutlinedButton.styleFrom(
-                        foregroundColor: AppTheme.neonGreen,
+                        foregroundColor: AppTheme.cyanAccent,
                         side: const BorderSide(
-                          color: AppTheme.neonGreen,
+                          color: AppTheme.cyanAccent,
                           width: 1.5,
                         ),
                         elevation: 0,
@@ -122,7 +122,7 @@ class _PremiumButtonState extends State<PremiumButton>
                       valueColor: AlwaysStoppedAnimation<Color>(
                         widget.isPrimary
                             ? AppTheme.deepBlack
-                            : AppTheme.neonGreen,
+                            : AppTheme.cyanAccent,
                       ),
                     ),
                   )

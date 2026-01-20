@@ -135,7 +135,7 @@ class ParticlePainter extends CustomPainter {
 
     // Draw particles
     for (var particle in particles) {
-      paint.color = AppTheme.neonGreen.withOpacity(particle.opacity);
+      paint.color = AppTheme.cyanAccent.withOpacity(particle.opacity);
       canvas.drawCircle(particle.position, particle.size, paint);
     }
 
@@ -148,7 +148,7 @@ class ParticlePainter extends CustomPainter {
       for (int j = i + 1; j < particles.length; j++) {
         final distance = (particles[i].position - particles[j].position).distance;
         if (distance < 120) {
-          linePaint.color = AppTheme.neonGreen.withOpacity(
+          linePaint.color = AppTheme.cyanAccent.withOpacity(
             (1 - distance / 120) * 0.15,
           );
           canvas.drawLine(

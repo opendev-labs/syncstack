@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,13 @@ import '../theme/app_theme.dart';
 import '../services/gh_service.dart';
 import '../widgets/github_logo_painter.dart';
 import '../widgets/dashboard_views.dart';
+import '../widgets/sync_status_view.dart';
+import '../widgets/actions_view.dart';
+import 'sandbox_screen.dart';
+import '../providers/sync_provider.dart';
+import 'git_status_screen.dart';
+import '../widgets/project_wizard.dart';
+import '../widgets/local_scan_dialog.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -90,11 +98,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             'assets/icons/logo.svg',
                             height: 32,
                             width: 32,
-                            colorFilter: const ColorFilter.mode(AppTheme.neonGreen, BlendMode.srcIn),
+                            colorFilter: const ColorFilter.mode(AppTheme.cyanAccent, BlendMode.srcIn),
                           ),
                           const SizedBox(width: 16),
                           Text(
-                            'GH SYNC',
+                            'SYNCSTACK',
                             style: GoogleFonts.spaceGrotesk(
                               color: Colors.white,
                               fontSize: 18,
@@ -118,10 +126,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       _buildSectionHeader('NAVIGATION'),
                       _buildNavItem(Icons.grid_view_rounded, 'Repositories', 0),
                       _buildNavItem(Icons.sync_rounded, 'Sync Status', 1),
-                      _buildNavItem(Icons.analytics_outlined, 'Analytics', 2),
+                      _buildNavItem(Icons.account_tree_outlined, 'Git Status', 2),
+                      _buildNavItem(Icons.play_circle_outline, 'GitHub Actions', 3),
+                      _buildNavItem(Icons.auto_awesome_rounded, 'Web Editor', 4),
+                      _buildNavItem(Icons.analytics_outlined, 'Analytics', 5),
                       const SizedBox(height: 24),
                       _buildSectionHeader('SYSTEM'),
-                      _buildNavItem(Icons.settings_outlined, 'Settings', 3),
+                      _buildNavItem(Icons.settings_outlined, 'Settings', 6),
                     ],
                   ),
                 ),
@@ -138,7 +149,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               color: AppTheme.deepBlack,
               child: Column(
                 children: [
-                  _buildTopBar(),
+                  if (_selectedIndex != 4) _buildTopBar(),
                   Expanded(
                     child: _buildCurrentView(),
                   ),
@@ -157,7 +168,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       decoration: BoxDecoration(
         color: AppTheme.elevatedSurface,
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: AppTheme.neonGreen.withOpacity(0.4)),
+        border: Border.all(color: AppTheme.cyanAccent.withOpacity(0.4)),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -165,10 +176,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           Container(
             width: 6,
             height: 6,
-            decoration: const BoxDecoration(color: AppTheme.neonGreen, shape: BoxShape.circle),
+            decoration: const BoxDecoration(color: AppTheme.cyanAccent, shape: BoxShape.circle),
           ).animate(onPlay: (c) => c.repeat()).fadeOut(duration: 1.seconds).fadeIn(duration: 1.seconds),
           const SizedBox(width: 8),
-          const Text('UPLINK ACTIVE', style: TextStyle(color: AppTheme.neonGreen, fontSize: 10, letterSpacing: 1, fontWeight: FontWeight.bold)),
+          const Text('UPLINK ACTIVE', style: TextStyle(color: AppTheme.cyanAccent, fontSize: 10, letterSpacing: 1, fontWeight: FontWeight.bold)),
         ],
       ),
     );
@@ -194,7 +205,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           decoration: isActive ? AppTheme.mattBox(color: AppTheme.elevatedSurface) : null,
           child: Row(
             children: [
-              Icon(icon, color: isActive ? AppTheme.neonGreen : AppTheme.textGrey, size: 18),
+              Icon(icon, color: isActive ? AppTheme.cyanAccent : AppTheme.textGrey, size: 18),
               const SizedBox(width: 12),
               Text(label, style: TextStyle(color: isActive ? Colors.white : AppTheme.textGrey, fontWeight: isActive ? FontWeight.bold : FontWeight.normal, fontSize: 13)),
             ],
@@ -214,7 +225,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             radius: 18,
             backgroundColor: AppTheme.elevatedSurface,
             backgroundImage: auth.userProfile?['avatar_url'] != null ? NetworkImage(auth.userProfile!['avatar_url']) : null,
-            child: auth.userProfile?['avatar_url'] == null ? const Icon(Icons.person, color: AppTheme.neonGreen, size: 20) : null,
+            child: auth.userProfile?['avatar_url'] == null ? const Icon(Icons.person, color: AppTheme.cyanAccent, size: 20) : null,
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -222,7 +233,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(auth.username ?? 'Uplink', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13)),
-                Text('Pro Tier', style: TextStyle(fontSize: 10, color: AppTheme.neonGreen.withOpacity(0.6))),
+                Text('Pro Tier', style: TextStyle(fontSize: 10, color: AppTheme.cyanAccent.withOpacity(0.6))),
               ],
             ),
           ),
@@ -235,8 +246,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget _buildTopBar() {
     String title = 'Repositories';
     if (_selectedIndex == 1) title = 'Sync Status';
-    if (_selectedIndex == 2) title = 'Analytics';
-    if (_selectedIndex == 3) title = 'Settings';
+    if (_selectedIndex == 2) title = 'Git Status';
+    if (_selectedIndex == 3) title = 'GitHub Actions';
+    if (_selectedIndex == 4) title = 'Web Editor';
+    if (_selectedIndex == 5) title = 'Analytics';
+    if (_selectedIndex == 6) title = 'Settings';
 
     return Container(
       padding: const EdgeInsets.all(24),
@@ -248,12 +262,43 @@ class _DashboardScreenState extends State<DashboardScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title, style: Theme.of(context).textTheme.displaySmall),
-          if (_selectedIndex == 0)
-            ElevatedButton.icon(
-              icon: const Icon(Icons.refresh, size: 18),
-              label: const Text('REFRESH'),
-              onPressed: _loadRepos,
-            ),
+          Row(
+            children: [
+              if (_selectedIndex == 0) ...[
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.add, size: 18),
+                  label: const Text('CREATE REPO'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppTheme.cyanAccent,
+                    foregroundColor: Colors.black,
+                  ),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => ProjectWizard(onProjectCreated: _loadRepos),
+                    );
+                  },
+                ),
+                const SizedBox(width: 12),
+                OutlinedButton.icon(
+                  icon: const Icon(Icons.search, size: 18),
+                  label: const Text('SCAN LOCAL'),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => LocalScanDialog(onRefresh: _loadRepos),
+                    );
+                  },
+                ),
+                const SizedBox(width: 12),
+                ElevatedButton.icon(
+                  icon: const Icon(Icons.refresh, size: 18),
+                  label: const Text('REFRESH'),
+                  onPressed: _loadRepos,
+                ),
+              ],
+            ],
+          ),
         ],
       ),
     );
@@ -267,15 +312,115 @@ class _DashboardScreenState extends State<DashboardScreen> {
           isLoading: _isLoading,
           error: _error,
           onRefresh: _loadRepos,
-          onSync: (i) {}, // TODO: Implement sync logic
+          onSync: (index) => _handleSync(context, _repos![index]),
         );
+      case 1:
+        return const SyncStatusView();
       case 2:
-        return const AnalyticsView();
+        // Git Status - use first repo as example, or allow selection
+        final repoPath = _repos != null && _repos!.isNotEmpty
+            ? '/home/cube/syncstack/${_repos![0]['full_name']}'
+            : null;
+        final repoName = _repos != null && _repos!.isNotEmpty
+            ? _repos![0]['full_name']
+            : null;
+        return GitStatusScreen(
+          repoPath: repoPath,
+          repoName: repoName,
+        );
       case 3:
+        final repoName = _repos != null && _repos!.isNotEmpty
+            ? _repos![0]['full_name']
+            : 'opendev-labs/syncstack-desk'; // Fallback
+        return ActionsView(repoFullName: repoName);
+      case 4:
+        return const WebEditorScreen();
+      case 5:
+        return const AnalyticsView();
+      case 6:
         return const SettingsView();
       default:
         return const Center(child: Text('Coming Soon', style: TextStyle(color: AppTheme.textGrey)));
     }
+  }
+
+  Future<void> _handleSync(BuildContext context, Map<String, dynamic> repo) async {
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+    final syncProvider = Provider.of<SyncProvider>(context, listen: false);
+    
+    // Default sync path
+    String syncPath = '/home/cube/syncstack/${repo['full_name']}';
+    
+    try {
+      // Check if we should ask for a path (e.g. if it doesn't exist yet)
+      final bool exists = await Directory(syncPath).exists();
+      
+      if (!exists) {
+        final String? selectedPath = await _pickDirectory(context, repo['name']);
+        if (selectedPath == null) return;
+        syncPath = selectedPath;
+      }
+
+      syncProvider.startSync(repo['full_name']);
+      
+      final result = await _ghService.syncRepo(
+        syncPath,
+        repo['full_name'],
+        repo['clone_url'],
+        auth.token!,
+        'pull',
+      );
+
+      if (mounted) {
+        syncProvider.completeSync(
+          repo['full_name'],
+          result['success'],
+          message: result['message'],
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result['success'] ? 'Sync successful' : 'Sync failed: ${result['message']}'),
+            backgroundColor: result['success'] ? AppTheme.cyanAccent : AppTheme.errorRed,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        syncProvider.completeSync(repo['full_name'], false, message: e.toString());
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: $e'), backgroundColor: AppTheme.errorRed),
+        );
+      }
+    }
+  }
+
+  Future<String?> _pickDirectory(BuildContext context, String repoName) async {
+    return showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppTheme.surfaceBlack,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4), side: const BorderSide(color: AppTheme.cyanAccent)),
+        title: Text('SYNC DESTINATION: $repoName', style: const TextStyle(fontSize: 14, letterSpacing: 1)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Choose where to link this repository locally.', style: TextStyle(fontSize: 12, color: AppTheme.textGrey)),
+            const SizedBox(height: 16),
+            Text('Default Path:', style: TextStyle(fontSize: 10, color: AppTheme.cyanAccent.withOpacity(0.7))),
+            Text('/home/cube/syncstack/$repoName', style: const TextStyle(fontSize: 11, fontFamily: 'monospace')),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context), child: const Text('CANCEL', style: TextStyle(color: AppTheme.textGrey))),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(context, '/home/cube/syncstack/$repoName'),
+            child: const Text('PROCEED WITH DEFAULT'),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -315,7 +460,7 @@ class _RepoCardState extends State<_RepoCard> {
           borderRadius: BorderRadius.circular(4),
           border: Border.all(
             color: _isHovered
-                ? AppTheme.neonGreen
+                ? AppTheme.cyanAccent
                 : AppTheme.borderGlow,
             width: 1,
           ),
@@ -332,11 +477,11 @@ class _RepoCardState extends State<_RepoCard> {
                     decoration: BoxDecoration(
                       color: AppTheme.elevatedSurface,
                       borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: AppTheme.neonGreen.withOpacity(0.2)),
+                      border: Border.all(color: AppTheme.cyanAccent.withOpacity(0.2)),
                     ),
                     child: const Icon(
                       Icons.folder_outlined,
-                      color: AppTheme.neonGreen,
+                      color: AppTheme.cyanAccent,
                       size: 18,
                     ),
                   ),
@@ -420,7 +565,7 @@ class _RepoCardState extends State<_RepoCard> {
                       fontSize: 10,
                       letterSpacing: 1,
                       color: _statusMessage == 'SUCCESS'
-                          ? AppTheme.neonGreen
+                          ? AppTheme.cyanAccent
                           : AppTheme.textDimmed,
                       fontWeight: FontWeight.w600,
                     ),
@@ -435,7 +580,7 @@ class _RepoCardState extends State<_RepoCard> {
                         decoration: BoxDecoration(
                           color: AppTheme.elevatedSurface,
                           borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: AppTheme.neonGreen.withOpacity(0.2)),
+                          border: Border.all(color: AppTheme.cyanAccent.withOpacity(0.2)),
                         ),
                         child: _isSyncing
                             ? const SizedBox(
@@ -443,13 +588,13 @@ class _RepoCardState extends State<_RepoCard> {
                                 height: 16,
                                 child: CircularProgressIndicator(
                                   strokeWidth: 2,
-                                  color: AppTheme.neonGreen,
+                                  color: AppTheme.cyanAccent,
                                 ),
                               )
                             : const Icon(
                                 Icons.sync_rounded,
                                 size: 16,
-                                color: AppTheme.neonGreen,
+                                color: AppTheme.cyanAccent,
                               ),
                       ),
                     ),
@@ -481,12 +626,9 @@ class _RepoCardState extends State<_RepoCard> {
   }
 
   Future<void> _syncRepo() async {
-    setState(() {
-      _isSyncing = true;
-      _statusMessage = 'SYNCING...';
-    });
-
-    final syncPath = '/home/cube/Gh-sync/${widget.repo['full_name']}';
+    final syncProvider = Provider.of<SyncProvider>(context, listen: false);
+    final String syncPath = '/home/cube/syncstack/${widget.repo['full_name']}';
+    syncProvider.startSync(widget.repo['full_name']);
 
     try {
       final result = await widget.ghService.syncRepo(
@@ -502,6 +644,12 @@ class _RepoCardState extends State<_RepoCard> {
           _isSyncing = false;
           _statusMessage = result['success'] ? 'SUCCESS' : 'FAILED';
         });
+
+        syncProvider.completeSync(
+          widget.repo['full_name'],
+          result['success'],
+          message: result['message'],
+        );
 
         if (!result['success'] && context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

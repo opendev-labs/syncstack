@@ -67,7 +67,7 @@ class _StatusIndicatorState extends State<StatusIndicator>
       case SyncStatus.syncing:
         return AppTheme.infoBlue;
       case SyncStatus.success:
-        return AppTheme.neonGreen;
+        return AppTheme.cyanAccent;
       case SyncStatus.error:
         return AppTheme.errorRed;
     }

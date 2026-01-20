@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // Anti-Gravity Core Colors - Matt High-Contrast Palette
-  static const Color neonGreen = Color(0xFF00FF41); 
-  static const Color darkGreen = Color(0xFF00BD32); 
+  // SyncStack Core Colors - Infra-Grade Palette
+  static const Color cyanAccent = Color(0xFF00A3FF); 
+  static const Color darkCyan = Color(0xFF007ACC); 
   static const Color deepBlack = Color(0xFF000000); 
-  static const Color surfaceBlack = Color(0xFF050505); 
-  static const Color elevatedSurface = Color(0xFF0A0A0A); 
-  static const Color borderGlow = Color(0xFF151515); 
+  static const Color surfaceBlack = Color(0xFF0A0A0A); 
+  static const Color elevatedSurface = Color(0xFF121212); 
+  static const Color borderGlow = Color(0xFF1A1A1A); 
   static const Color textWhite = Color(0xFFFFFFFF);
-  static const Color textGrey = Color(0xFF757575);
-  static const Color textDimmed = Color(0xFF424242);
+  static const Color textGrey = Color(0xFF888888);
+  static const Color textDimmed = Color(0xFF555555);
   
-  static const Color errorRed = Color(0xFFFF0033);
+  static const Color errorRed = Color(0xFFFF3B30);
   static const Color warningOrange = Color(0xFFFF9500);
-  static const Color infoBlue = Color(0xFF007AFF);
+  static const Color infoBlue = Color(0xFF00A3FF);
 
   // Matt Box Decoration (Replaces Glassmorphism)
   static BoxDecoration mattBox({
@@ -28,7 +28,7 @@ class AppTheme {
       borderRadius: BorderRadius.circular(radius),
       border: withBorder
           ? Border.all(
-              color: neonGreen.withOpacity(0.3),
+              color: cyanAccent.withOpacity(0.3),
               width: 1,
             )
           : null,
@@ -40,10 +40,10 @@ class AppTheme {
       useMaterial3: true,
       brightness: Brightness.dark,
       scaffoldBackgroundColor: deepBlack,
-      primaryColor: neonGreen,
+      primaryColor: cyanAccent,
       colorScheme: const ColorScheme.dark(
-        primary: neonGreen,
-        secondary: darkGreen,
+        primary: cyanAccent,
+        secondary: darkCyan,
         surface: surfaceBlack,
         background: deepBlack,
         error: errorRed,
@@ -60,18 +60,18 @@ class AppTheme {
           fontWeight: FontWeight.bold, 
           color: textWhite,
           letterSpacing: -1,
-        ),
+        ).copyWith(fontFamilyFallback: ['sans-serif']),
         displayMedium: GoogleFonts.spaceGrotesk(
           fontSize: 28, 
           fontWeight: FontWeight.bold, 
           color: textWhite,
           letterSpacing: -0.5,
-        ),
+        ).copyWith(fontFamilyFallback: ['sans-serif']),
         displaySmall: GoogleFonts.spaceGrotesk(
           fontSize: 20, 
           fontWeight: FontWeight.w600, 
           color: textWhite,
-        ),
+        ).copyWith(fontFamilyFallback: ['sans-serif']),
         headlineMedium: GoogleFonts.inter(
           fontSize: 18,
           fontWeight: FontWeight.w600,
@@ -100,7 +100,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
           side: BorderSide(
-            color: neonGreen.withOpacity(0.2),
+            color: cyanAccent.withOpacity(0.2),
             width: 1,
           ),
         ),
@@ -120,7 +120,7 @@ class AppTheme {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4),
-          borderSide: const BorderSide(color: neonGreen, width: 1.5),
+          borderSide: const BorderSide(color: cyanAccent, width: 1.5),
         ),
         labelStyle: const TextStyle(color: textGrey, fontSize: 13),
         hintStyle: const TextStyle(color: textDimmed, fontSize: 13),
@@ -128,7 +128,7 @@ class AppTheme {
 
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: neonGreen,
+          backgroundColor: cyanAccent,
           foregroundColor: deepBlack,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -145,8 +145,8 @@ class AppTheme {
       
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: OutlinedButton.styleFrom(
-          foregroundColor: neonGreen,
-          side: const BorderSide(color: neonGreen, width: 1.5),
+          foregroundColor: cyanAccent,
+          side: const BorderSide(color: cyanAccent, width: 1.5),
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(4),
@@ -171,9 +171,40 @@ class AppTheme {
       ),
 
       iconTheme: const IconThemeData(
-        color: neonGreen,
+        color: cyanAccent,
         size: 20,
       ),
     );
   }
+
+  // Code Syntax Highlighting Theme (Matrix/Cyberpunk Style)
+  static Map<String, TextStyle> get codeTheme => {
+    'root': const TextStyle(color: Color(0xffabb2bf), backgroundColor: Color(0xff0a0a0a)),
+    'comment': const TextStyle(color: Color(0xff5c6370), fontStyle: FontStyle.italic),
+    'quote': const TextStyle(color: Color(0xff5c6370), fontStyle: FontStyle.italic),
+    'doctag': const TextStyle(color: Color(0xffc678dd)),
+    'keyword': const TextStyle(color: Color(0xffc678dd)),
+    'formula': const TextStyle(color: Color(0xffc678dd)),
+    'section': const TextStyle(color: Color(0xffe06c75)),
+    'name': const TextStyle(color: Color(0xffe06c75)),
+    'selector-tag': const TextStyle(color: Color(0xffe06c75)),
+    'deletion': const TextStyle(color: Color(0xffe06c75)),
+    'subst': const TextStyle(color: Color(0xffe06c75)),
+    'literal': const TextStyle(color: Color(0xff56b6c2)),
+    'string': const TextStyle(color: cyanAccent),
+    'regexp': const TextStyle(color: cyanAccent),
+    'addition': const TextStyle(color: cyanAccent),
+    'attribute': const TextStyle(color: cyanAccent),
+    'meta-string': const TextStyle(color: cyanAccent),
+    'built_in': const TextStyle(color: Color(0xffe6c07b)),
+    'class': const TextStyle(color: Color(0xffe6c07b)),
+    'title': const TextStyle(color: Color(0xff61afef)),
+    'variable': const TextStyle(color: Color(0xff61afef)),
+    'template-variable': const TextStyle(color: Color(0xff61afef)),
+    'type': const TextStyle(color: Color(0xff61afef)),
+    'symbol': const TextStyle(color: Color(0xff61afef)),
+    'bullet': const TextStyle(color: Color(0xff61afef)),
+    'number': const TextStyle(color: Color(0xffd19a66)),
+    'link': const TextStyle(color: Color(0xff61afef), decoration: TextDecoration.underline),
+  };
 }

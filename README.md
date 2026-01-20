@@ -1,16 +1,16 @@
-# GH Sync Desktop 
+# SyncStack
 
 <div align="center">
 
-![GH Sync Logo](assets/icons/logo.svg)
+![SyncStack Logo](assets/icons/logo.png)
 
-**The Enterprise-Grade GitHub Synchronization Engine**
+**The Enterprise-Grade Unified Synchronization Engine**
 
-[![Version](https://img.shields.io/badge/version-2.1.0-00FF41?style=for-the-badge)](https://github.com/opendev-labs/gh-sync-desk)
-[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-000000?style=for-the-badge)](https://github.com/opendev-labs/gh-sync-desk)
-[![License](https://img.shields.io/badge/license-MIT-00FF41?style=for-the-badge)](LICENSE)
+[![Version](https://img.shields.io/badge/version-3.0.0-00A3FF?style=for-the-badge)](https://github.com/opendev-labs/syncstack)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-000000?style=for-the-badge)](https://github.com/opendev-labs/syncstack)
+[![License](https://img.shields.io/badge/license-MIT-00A3FF?style=for-the-badge)](LICENSE)
 
-*A high-performance, minimalist desktop client for professional developers who demand precision, speed, and aesthetic excellence.*
+*A high-performance, infra-grade synchronization layer for professional developers. GitHub, Vercel, and Hugging Face—one stack, in sync.*
 
 </div>
 
@@ -18,41 +18,39 @@
 
 ## 💎 Visual Experience
 
-### Secure Authentication
-![Login Screen](assets/screenshots/gh-sync-desktop-loginpage.png)
-*Establish a secure uplink to GitHub with encrypted PAT authentication.*
+### Secure Uplink
+Establish a secure connection to your dev cloud with encrypted authentication and real-time status monitoring.
 
-### Intelligent Dashboard
-![Dashboard](assets/screenshots/gh-sync-desktop-dashboard.png)
-*Manage your entire repository ecosystem with a high-contrast, data-driven interface.*
+### Unified Dashboard
+Manage your entire repository ecosystem with a high-contrast, data-driven interface designed for deep-work focus.
 
-### System Configuration
-![Settings](assets/screenshots/gh-sync-desktop-settings.png)
-*Fine-tune your synchronization engine for maximum efficiency.*
+### SyncStack IDE
+A full-featured, native development environment with integrated live preview and terminal access.
 
 ---
 
 ## ⚡ Core Pillars
 
 ### 1. Superior Performance
-Native Flutter implementation ensures near-instant startup times (<1s) and high-frame-rate animations. No Electron bloat, just pure efficiency.
+Native Flutter implementation ensures near-instant startup times and fluid 60fps interactions. No Electron overhead, just pure synchronization logic.
 
-### 2. Antigravity Aesthetic
-Designed with the **Antigravity IDE** philosophy. A monochromatic matt-black foundation punctuated by vibrant neon-green accents, optimized for deep-work focus.
+### 2. Quantum Aesthetic
+Defined by the **opendev-labs** philosophy. A monochromatic graphite foundation punctuated by vibrant electric cyan accents.
 
-### 3. Hybrid Synchronization Engine
-GH Sync leverages a distributed architecture:
-- **Frontend**: Flutter-powered fluid UI for high-fidelity interaction.
-- **Backend**: A specialized Python-core (`gh_engine.py`) handles complex Git operations with intelligent conflict resolution.
+### 3. Unified Synchronization
+SyncStack transcends simple Git operations:
+- **GitHub**: Full repository lifecycle management.
+- **Vercel**: Deployment monitoring and triggers.
+- **Hugging Face**: Seamless model and Spaces synchronization.
 
 ---
 
 ## 🚀 Technical Highlights
 
-- **Vector Precision**: 100% SVG-native iconography for infinite scalability.
-- **Micro-Interactions**: Hover glows, scanline animations, and fluid transitions that make every action feel premium.
-- **Enterprise Security**: Secure token handling and encrypted communication protocols.
-- **Python Integration**: Seamless IPC-based bridge to a robust Git automation engine.
+- **Vector Precision**: 100% SVG-ready iconography and high-fidelity UI components.
+- **Micro-Interactions**: Hover glows, scanline animations, and fluid transitions.
+- **Enterprise Security**: End-to-end encryption for tokens and sensitive configurations.
+- **Infra-Grade Backend**: Specialized synchronization engine for reliable cross-platform performance.
 
 ---
 
@@ -60,20 +58,15 @@ GH Sync leverages a distributed architecture:
 
 ### Prerequisites
 - [Flutter SDK](https://flutter.dev/docs/get-started/install) (3.0.0+)
-- [Python 3](https://www.python.org/downloads/)
 - [Git](https://git-scm.com/downloads)
-
-#### Snap Store (Recommended)
-Coming soon to the Snap Store. Stay tuned for the official release.
 
 #### Local Build
 ```bash
 # Clone the repository
-git clone https://github.com/opendev-labs/gh-sync-desk.git
+git clone https://github.com/opendev-labs/syncstack.git
 
 # Initialize environment
-cd gh-sync-desk
-pip install requests
+cd syncstack
 flutter pub get
 
 # Launch high-performance build
@@ -87,12 +80,11 @@ flutter run -d linux # or macos / windows
 ```yaml
 lib/:
   main.dart: "Entry point & core state injection"
-  theme/: "Antigravity design system (Matt-Black/Neon-Green)"
-  services/: "Robust Python-Flutter IPC bridge"
-  screens/: "State-aware UI modules (Login/Dashboard/Settings)"
+  theme/: "SyncStack design system (Graphite/Cyan)"
+  services/: "Robust synchronization layer"
+  screens/: "State-aware UI modules (Login/Dashboard/IDE)"
 assets/:
-  icons/: "SVG vector assets"
-  scripts/: "GH Engine (Python Git Automation Core)"
+  icons/: "Branding and iconography"
 ```
 
 ---
@@ -100,8 +92,8 @@ assets/:
 <div align="center">
 
 **[ opendev-labs ]**
-*Transcending Code, Elevating Consciousness*
+*Transcending Code, Elevating Infrastructure*
 
-`v2.1.0 // ENTERPRISE EDITION`
+`v3.0.0 // PRODUCTION READY`
 
 </div>

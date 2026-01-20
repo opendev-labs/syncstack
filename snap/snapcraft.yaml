@@ -18,13 +18,13 @@ description: |
 grade: stable
 confinement: strict
 
-website: https://github.com/opendev-labs/gh-sync-desk
-contact: https://github.com/opendev-labs/gh-sync-desk/issues
-issues: https://github.com/opendev-labs/gh-sync-desk/issues
-source-code: https://github.com/opendev-labs/gh-sync-desk
+website: https://github.com/opendev-labs/syncstack-desk
+contact: https://github.com/opendev-labs/syncstack-desk/issues
+issues: https://github.com/opendev-labs/syncstack-desk/issues
+source-code: https://github.com/opendev-labs/syncstack-desk
 
 parts:
-  gh-sync-desktop:
+  syncstack-desktop:
     source: build/linux/x64/release/bundle
     plugin: dump
     stage-packages:
@@ -38,15 +38,15 @@ parts:
       - libsystemd0
   desktop-metadata:
     plugin: dump
-    source: snap/gui
+    source: .
     organize:
-      github-sync-desktop.desktop: usr/share/applications/github-sync-desktop.desktop
-      github-sync-desktop.metainfo.xml: usr/share/metainfo/github-sync-desktop.metainfo.xml
-      logo.svg: usr/share/icons/hicolor/scalable/apps/github-sync-desktop.svg
+      snap/gui/github-sync-desktop.desktop: usr/share/applications/github-sync-desktop.desktop
+      assets/metadata/github-sync-desktop.metainfo.xml: usr/share/metainfo/github-sync-desktop.metainfo.xml
+      snap/gui/logo.svg: usr/share/icons/hicolor/scalable/apps/github-sync-desktop.svg
 
 apps:
-  gh-sync-desktop:
-    command: gh_sync_desktop
+  syncstack-desktop:
+    command: syncstack_desktop
     desktop: usr/share/applications/github-sync-desktop.desktop
     extensions: [gnome]
     plugs:
