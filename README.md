@@ -10,7 +10,6 @@
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-000000?style=for-the-badge)](https://github.com/opendev-labs/syncstack)
 [![License](https://img.shields.io/badge/license-MIT-00A3FF?style=for-the-badge)](LICENSE)
 
-*A high-performance, infra-grade synchronization layer for professional developers. GitHub, Vercel, and Hugging Face—one stack, in sync.*
 
 </div>
 
