@@ -30,6 +30,44 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  Future<void> _showTokenDialog({
+    required String title,
+    required String hint,
+    required Function(String) onConfirm,
+  }) async {
+    final controller = TextEditingController();
+    return showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppTheme.surfaceBlack,
+        title: Text(title, style: const TextStyle(color: Colors.white, fontSize: 18)),
+        content: TextField(
+          controller: controller,
+          style: const TextStyle(color: Colors.white),
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: const TextStyle(color: AppTheme.textDimmed),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel', style: TextStyle(color: AppTheme.textGrey)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (controller.text.isNotEmpty) {
+                onConfirm(controller.text);
+                Navigator.pop(context);
+              }
+            },
+            child: const Text('Connect'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> _handleLogin() async {
     final username = _usernameController.text.trim();
     final token = _tokenController.text.trim();
@@ -99,48 +137,120 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 const SizedBox(height: 20),
 
-                // Main Login Card
+                // Social Login Section
+                Column(
+                  children: [
+                    _buildSocialButton(
+                      label: 'Sign in with GitHub',
+                      icon: 'assets/icons/github.svg', // Assuming this exists or using a placeholder
+                      onPressed: () => Provider.of<AuthProvider>(context, listen: false).signInWithGitHub(),
+                      color: Colors.white,
+                      textColor: Colors.black,
+                    ),
+                    const SizedBox(height: 12),
+                    _buildSocialButton(
+                      label: 'Sign in with Google',
+                      icon: 'assets/icons/google.svg',
+                      onPressed: () => Provider.of<AuthProvider>(context, listen: false).signInWithGoogle(),
+                      color: Colors.white,
+                      textColor: Colors.black,
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: _buildSocialButton(
+                            label: 'Vercel',
+                            icon: 'assets/icons/vercel.svg',
+                            onPressed: () => _showTokenDialog(
+                              title: 'Vercel Integration',
+                              hint: 'Enter Vercel Access Token',
+                              onConfirm: (token) => Provider.of<AuthProvider>(context, listen: false).signInWithVercel(token),
+                            ),
+                            color: Colors.black,
+                            textColor: Colors.white,
+                            small: true,
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: _buildSocialButton(
+                            label: 'Hugging Face',
+                            icon: 'assets/icons/hf.svg',
+                            onPressed: () => _showTokenDialog(
+                              title: 'Hugging Face Integration',
+                              hint: 'Enter HF Access Token',
+                              onConfirm: (token) => Provider.of<AuthProvider>(context, listen: false).signInWithHF(token),
+                            ),
+                            color: const Color(0xFFFFD21E),
+                            textColor: Colors.black,
+                            small: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ).animate().fadeIn(delay: 200.ms, duration: 600.ms).slideY(begin: 0.2),
+
+                const SizedBox(height: 32),
+
+                Row(
+                  children: [
+                    const Expanded(child: Divider(color: AppTheme.textDimmed)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Text('OR', style: TextStyle(color: AppTheme.textDimmed, fontSize: 12, fontWeight: FontWeight.bold)),
+                    ),
+                    const Expanded(child: Divider(color: AppTheme.textDimmed)),
+                  ],
+                ),
+
+                const SizedBox(height: 32),
+
+                // Token Login Card
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: AppTheme.surfaceBlack,
-                    border: Border.all(color: AppTheme.borderGlow.withOpacity(0.5)),
+                    border: Border.all(color: AppTheme.borderGlow.withOpacity(0.3)),
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      _buildGitHubField(
-                        controller: _usernameController,
-                        label: 'Username or email address',
+                      Text(
+                        'Classic Token Sign-in',
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.cyanAccent,
+                        ),
                       ),
                       const SizedBox(height: 16),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Personal Access Token', style: TextStyle(fontSize: 14, color: Colors.white)),
-                          Text('Forgot token?', style: TextStyle(fontSize: 12, color: AppTheme.infoBlue.withOpacity(0.8))),
-                        ],
+                      _buildGitHubField(
+                        controller: _usernameController,
+                        label: 'Username',
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 16),
                       _buildGitHubField(
                         controller: _tokenController,
-                        label: '',
+                        label: 'Access Token',
                         obscureText: true,
                       ),
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: _isLoading ? null : _handleLogin,
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.cyanAccent,
-                          foregroundColor: Colors.black,
+                          backgroundColor: AppTheme.cyanAccent.withOpacity(0.1),
+                          foregroundColor: AppTheme.cyanAccent,
+                          side: const BorderSide(color: AppTheme.cyanAccent),
                           padding: const EdgeInsets.symmetric(vertical: 14),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
                           elevation: 0,
                         ),
                         child: _isLoading 
-                          ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.black))
-                          : const Text('Sign in', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+                          ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: AppTheme.cyanAccent))
+                          : const Text('Connect with Token', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                       ),
                     ],
                   ),
@@ -227,6 +337,64 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildSocialButton({
+    required String label,
+    required String icon,
+    required VoidCallback onPressed,
+    required Color color,
+    required Color textColor,
+    bool small = false,
+  }) {
+    return SizedBox(
+      height: 48,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          foregroundColor: textColor,
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6),
+            side: color == Colors.white ? const BorderSide(color: AppTheme.borderGlow) : BorderSide.none,
+          ),
+          padding: EdgeInsets.symmetric(horizontal: small ? 8 : 16),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              icon,
+              height: 20,
+              width: 20,
+              colorFilter: icon == 'assets/icons/google.svg' || icon == 'assets/icons/hf.svg' 
+                ? null 
+                : ColorFilter.mode(textColor, BlendMode.srcIn),
+            ),
+            if (!small) ...[
+              const SizedBox(width: 12),
+              Text(
+                label,
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 14,
+                ),
+              ),
+            ] else ...[
+              const SizedBox(width: 8),
+              Text(
+                label,
+                style: GoogleFonts.inter(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }

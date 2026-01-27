@@ -21,7 +21,8 @@ class GHService {
     }
 
     // 3. Fallback to the absolute development path
-    return '/home/cube/syncstack/opendev-labs/syncstack/assets/scripts/gh_engine.py';
+    final String home = Platform.environment['HOME'] ?? '/tmp';
+    return p.join(home, 'syncstack/opendev-labs/syncstack/assets/scripts/gh_engine.py');
   }
 
   Future<Map<String, dynamic>> _runPython(List<String> args) async {

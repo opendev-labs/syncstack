@@ -1,7 +1,7 @@
-name: github-sync-desktop
+name: syncstack
 base: core22
 version: '2.1.0'
-title: GitHub Sync Desktop
+title: SyncStack
 summary: Enterprise GitHub Synchronization Engine
 description: |
   A high-performance, minimalist desktop client for professional developers.
@@ -18,10 +18,10 @@ description: |
 grade: stable
 confinement: strict
 
-website: https://github.com/opendev-labs/syncstack-desk
-contact: https://github.com/opendev-labs/syncstack-desk/issues
-issues: https://github.com/opendev-labs/syncstack-desk/issues
-source-code: https://github.com/opendev-labs/syncstack-desk
+website: https://github.com/opendev-labs/syncstack
+contact: https://github.com/opendev-labs/syncstack/issues
+issues: https://github.com/opendev-labs/syncstack/issues
+source-code: https://github.com/opendev-labs/syncstack
 
 parts:
   syncstack-desktop:
@@ -40,14 +40,14 @@ parts:
     plugin: dump
     source: .
     organize:
-      snap/gui/github-sync-desktop.desktop: usr/share/applications/github-sync-desktop.desktop
-      assets/metadata/github-sync-desktop.metainfo.xml: usr/share/metainfo/github-sync-desktop.metainfo.xml
-      snap/gui/logo.svg: usr/share/icons/hicolor/scalable/apps/github-sync-desktop.svg
+      snap/gui/syncstack.desktop: usr/share/applications/syncstack.desktop
+      assets/metadata/syncstack.metainfo.xml: usr/share/metainfo/syncstack.metainfo.xml
+      snap/gui/logo.svg: usr/share/icons/hicolor/scalable/apps/syncstack.svg
 
 apps:
-  syncstack-desktop:
-    command: syncstack_desktop
-    desktop: usr/share/applications/github-sync-desktop.desktop
+  syncstack:
+    command: syncstack
+    desktop: usr/share/applications/syncstack.desktop
     extensions: [gnome]
     plugs:
       - network

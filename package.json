@@ -1,0 +1,9 @@
+{
+    "name": "syncstack",
+    "version": "1.0.0",
+    "description": "SyncStack Web Components",
+    "main": "index.js",
+    "dependencies": {
+        "firebase": "^11.2.0"
+    }
+}

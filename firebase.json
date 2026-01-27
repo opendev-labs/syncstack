@@ -1,0 +1,29 @@
+{
+    "hosting": {
+        "site": "sync-stack",
+        "public": "build/web",
+        "ignore": [
+            "firebase.json",
+            "**/.*",
+            "**/node_modules/**"
+        ],
+        "rewrites": [
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
+    },
+    "flutter": {
+        "platforms": {
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "opendev-labs-syncstack",
+                    "configurations": {
+                        "web": "1:617497615103:web:46a5db59f73f50973dcaca"
+                    }
+                }
+            }
+        }
+    }
+}

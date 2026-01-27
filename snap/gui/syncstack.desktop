@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=SyncStack
+Comment=Premium Sync Stack by opendev-labs
+Exec=syncstack
+Icon=${SNAP}/gui/logo.svg
+Terminal=false
+Type=Application
+Categories=Development;
+StartupWMClass=syncstack

@@ -255,7 +255,15 @@ class GHEngine:
         
         # 1. Handle non-existent repo (Clone)
         if not status["exists"]:
-            auth_url = remote_url.replace("https://", f"https://{token}@")
+            # Handle auth URL
+            if "huggingface.co" in remote_url:
+                # HF usually needs user:token
+                user = repo_name.split('/')[0]
+                auth_url = remote_url.replace("https://", f"https://{user}:{token}@")
+            else:
+                # GitHub works with just token
+                auth_url = remote_url.replace("https://", f"https://{token}@")
+                
             os.makedirs(os.path.dirname(repo_path), exist_ok=True)
             res = subprocess.run(["git", "clone", auth_url, repo_path], capture_output=True, text=True)
             if res.returncode == 0:

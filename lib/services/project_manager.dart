@@ -68,9 +68,24 @@ class ProjectManager {
       
       await Directory(projectPath).create(recursive: true);
       
+      // Determine if there is a common root directory to flatten
+      String? commonRoot;
+      final topLevelEntities = archive.where((f) => !f.name.contains('/') || (f.name.endsWith('/') && f.name.indexOf('/') == f.name.length - 1)).toList();
+      
+      if (topLevelEntities.length == 1 && topLevelEntities.first.name.endsWith('/')) {
+        commonRoot = topLevelEntities.first.name;
+      }
+
       // Extract all files
       for (final file in archive) {
-        final filename = p.join(projectPath, file.name);
+        String effectiveName = file.name;
+        if (commonRoot != null && effectiveName.startsWith(commonRoot)) {
+          effectiveName = effectiveName.substring(commonRoot.length);
+        }
+        
+        if (effectiveName.isEmpty) continue;
+
+        final filename = p.join(projectPath, effectiveName);
         if (file.isFile) {
           final outFile = File(filename);
           await outFile.create(recursive: true);

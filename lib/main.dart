@@ -6,12 +6,21 @@ import 'providers/sync_provider.dart';
 import 'screens/login_screen.dart';
 import 'screens/dashboard_screen.dart';
 
-void main() {
-  runApp(const GHSyncApp());
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+import 'widgets/loading_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(const SyncStackApp());
 }
 
-class GHSyncApp extends StatelessWidget {
-  const GHSyncApp({super.key});
+class SyncStackApp extends StatelessWidget {
+  const SyncStackApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +34,7 @@ class GHSyncApp extends StatelessWidget {
           if (!auth.isInitialized) {
             return const MaterialApp(
               debugShowCheckedModeBanner: false,
-              home: Scaffold(
-                backgroundColor: AppTheme.deepBlack,
-                body: Center(
-                  child: CircularProgressIndicator(
-                    color: AppTheme.cyanAccent,
-                  ),
-                ),
-              ),
+              home: LoadingScreen(),
             );
           }
           

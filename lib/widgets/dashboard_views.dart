@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/local_scan_dialog.dart';
 import '../widgets/status_indicator.dart';
 import '../widgets/premium_button.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:path/path.dart' as p;
 import '../widgets/project_wizard.dart'; // Added import for ProjectWizard
+import 'dart:io';
 
 // --- Repositories View ---
 class RepositoriesView extends StatelessWidget {
@@ -276,6 +281,8 @@ class _SettingsViewState extends State<SettingsView> {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
+    
     return SingleChildScrollView(
       padding: const EdgeInsets.all(32.0),
       child: Column(
@@ -288,14 +295,89 @@ class _SettingsViewState extends State<SettingsView> {
             _buildSliderTile('Sync Interval (minutes)', _syncInterval, 5, 120, (v) => setState(() => _syncInterval = v)),
           ]),
           const SizedBox(height: 24),
+          _buildSettingSection('Integrations', [
+            _buildTokenTile(
+              'Vercel API Token',
+              auth.vercelToken ?? 'Not configured',
+              Icons.cloud_queue,
+              () => _showTokenDialog('Vercel API Token', auth.vercelToken, auth.setVercelToken),
+            ),
+            _buildTokenTile(
+              'Hugging Face Token',
+              auth.hfToken ?? 'Not configured',
+              Icons.face,
+              () => _showTokenDialog('Hugging Face Token', auth.hfToken, auth.setHFToken),
+            ),
+          ]),
+          const SizedBox(height: 24),
           _buildSettingSection('Git Configuration', [
-            _buildActionTile('Workspace Root', '/home/cube/syncstack', Icons.folder_open, () {}),
+            _buildActionTile('Workspace Root', p.join(Platform.environment['HOME'] ?? '/tmp', 'syncstack'), Icons.folder_open, () async {
+              final result = await FilePicker.platform.getDirectoryPath();
+              if (result != null) {
+                // In a real app, save to preferences
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Workspace root changed to: $result')),
+                );
+              }
+            }),
             _buildActionTile('Conflict Strategy', 'Pull (Rebase)', Icons.call_merge, () {}),
           ]),
           const SizedBox(height: 24),
           _buildSettingSection('Danger Zone', [
             _buildActionTile('Clear All Local Cache', 'Remove synced data', Icons.delete_forever, () {}, isDestructive: true),
           ]),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTokenTile(String title, String value, IconData icon, VoidCallback onTap) {
+    return ListTile(
+      leading: Icon(icon, color: AppTheme.cyanAccent),
+      title: Text(title),
+      subtitle: Text(
+        value.length > 10 ? '${value.substring(0, 10)}...' : value,
+        style: const TextStyle(color: AppTheme.textGrey, fontSize: 12),
+      ),
+      trailing: const Icon(Icons.edit, size: 16, color: AppTheme.textGrey),
+      onTap: onTap,
+    );
+  }
+
+  void _showTokenDialog(String title, String? currentValue, Function(String?) onSave) {
+    final controller = TextEditingController(text: currentValue);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: AppTheme.surfaceBlack,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+          side: const BorderSide(color: AppTheme.cyanAccent),
+        ),
+        title: Text(title.toUpperCase(), style: const TextStyle(fontSize: 14, letterSpacing: 1)),
+        content: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: 'Enter your API token',
+            hintStyle: const TextStyle(color: AppTheme.textDimmed),
+            enabledBorder: const UnderlineInputBorder(borderSide: BorderSide(color: AppTheme.borderGlow)),
+            focusedBorder: const UnderlineInputBorder(borderSide: BorderSide(color: AppTheme.cyanAccent)),
+          ),
+          style: const TextStyle(color: Colors.white, fontSize: 13),
+          obscureText: true,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('CANCEL', style: TextStyle(color: AppTheme.textGrey)),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              onSave(controller.text.isEmpty ? null : controller.text);
+              Navigator.pop(context);
+            },
+            child: const Text('SAVE'),
+          ),
         ],
       ),
     );

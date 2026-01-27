@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.opendev.syncstack</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <name>SyncStack</name>
+  <summary>Enterprise Sync Stack by opendev-labs</summary>
+  <description>
+    <p>A high-performance synchronization engine for professional developers.</p>
+  </description>
+  <launchable type="desktop-id">syncstack.desktop</launchable>
+  <screenshots>
+    <screenshot type="default">
+      <caption>The main dashboard of SyncStack</caption>
+      <image>https://raw.githubusercontent.com/opendev-labs/syncstack/main/assets/screenshots/dashboard.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">https://github.com/opendev-labs/syncstack</url>
+</component>

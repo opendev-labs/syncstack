@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
 import '../services/gh_service.dart';
+import 'dart:io';
 import '../providers/auth_provider.dart';
 import '../widgets/premium_button.dart';
 
@@ -19,7 +20,7 @@ class _ProjectWizardState extends State<ProjectWizard> {
   final GHService _ghService = GHService();
   final _nameController = TextEditingController();
   final _descController = TextEditingController();
-  final _pathController = TextEditingController(text: '/home/cube/syncstack');
+  final _pathController = TextEditingController(text: '${Platform.environment['HOME']}/syncstack');
   
   int _currentStep = 0;
   String _selectedTemplate = 'Pure HTML';
